@@ -1,0 +1,108 @@
+# Terraform
+# Local terraform directories
+**/.terraform/*
+**/.terraform.lock.hcl
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+*.backup
+
+# Terraform variable files (may contain secrets)
+*.tfvars
+*.tfvars.json
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Terraform override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+# Terraform plan output
+*.tfplan
+*.plan
+
+
+# AWS / Cloud credentials
+# AWS CLI credentials and config
+.aws/
+**/.aws/
+
+# Environment variable files
+.env
+.env.*
+!.env.example
+
+# Common secret files
+secrets.*
+*.pem
+*.key
+*.crt
+
+
+# Kubernetes
+# kubeconfig files
+kubeconfig
+*kubeconfig*
+**/kubeconfig*
+
+# Helm charts (if generated)
+charts/
+*.tgz
+
+
+# Logs & runtime files
+*.log
+logs/
+**/logs/
+
+
+# OS / Editor junk
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.iml
+
+# Node / CI tooling (future-proof)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# Python (future-proof)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+
+# Archives & binaries
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.exe
+*.out
+
+# Grading output exception
+# grading.json MUST be committed at the end
+!grading.json
