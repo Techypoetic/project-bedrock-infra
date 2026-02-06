@@ -1,0 +1,6 @@
+# Copy this file to terraform.tfvars and customize values
+# terraform.tfvars is gitignored and won't be committed
+
+region       = "us-east-1"
+project_name = "project-bedrock"
+environment  = "production"
