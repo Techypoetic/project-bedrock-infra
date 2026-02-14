@@ -55,3 +55,24 @@ output "configure_kubectl" {
   description = "Command to configure kubectl"
   value       = "aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}"
 }
+
+# ============================================================================
+# Developer User Outputs (for grading submission)
+# ============================================================================
+
+output "bedrock_dev_view_access_key_id" {
+  description = "Access Key ID for bedrock-dev-view user"
+  value       = module.iam.bedrock_dev_view_access_key_id
+  sensitive   = false
+}
+
+output "bedrock_dev_view_secret_access_key" {
+  description = "Secret Access Key for bedrock-dev-view user"
+  value       = module.iam.bedrock_dev_view_secret_access_key
+  sensitive   = true
+}
+
+output "bedrock_dev_view_user_arn" {
+  description = "ARN of bedrock-dev-view IAM user"
+  value       = module.iam.bedrock_dev_view_user_arn
+}

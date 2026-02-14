@@ -1,7 +1,7 @@
 # Local variables for consistent tagging
 locals {
   common_tags = {
-    Project     = "Bedrock"
+    Project     = "barakat-2025-capstone"
     Environment = var.environment
     ManagedBy   = "Terraform"
   }

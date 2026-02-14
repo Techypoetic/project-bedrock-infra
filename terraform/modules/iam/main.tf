@@ -83,3 +83,88 @@ resource "aws_iam_role_policy_attachment" "node_cloudwatch_policy" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
   role       = aws_iam_role.node_group.name
 }
+
+# ============================================================================
+# Developer User Resources
+# ============================================================================
+
+resource "aws_iam_user" "bedrock_dev_view" {
+  count = var.create_developer_user ? 1 : 0
+
+  name = var.developer_user_name
+  path = "/"
+
+  tags = merge(
+    var.tags,
+    {
+      Project     = "barakat-2025-capstone"
+      Name        = var.developer_user_name
+      Role        = "Developer"
+      Access      = "ReadOnly"
+      Description = "Developer user with read-only access to AWS and EKS cluster info"
+    }
+  )
+}
+
+resource "aws_iam_user_policy_attachment" "bedrock_dev_view_readonly" {
+  count = var.create_developer_user ? 1 : 0
+
+  user       = aws_iam_user.bedrock_dev_view[0].name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+
+resource "aws_iam_user_policy" "bedrock_dev_view_eks_describe" {
+  count = var.create_developer_user ? 1 : 0
+
+  name = "${var.developer_user_name}-eks-describe"
+  user = aws_iam_user.bedrock_dev_view[0].name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster",
+          "eks:ListClusters",
+          "eks:DescribeNodegroup",
+          "eks:ListNodegroups"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_access_key" "bedrock_dev_view" {
+  count = var.create_developer_user ? 1 : 0
+
+  user = aws_iam_user.bedrock_dev_view[0].name
+}
+
+resource "aws_secretsmanager_secret" "bedrock_dev_view_access_key" {
+  count = var.create_developer_user ? 1 : 0
+
+  name          = "${var.developer_user_name}-access-key"
+  description   = "Access keys for ${var.developer_user_name} user"
+
+  tags = merge(
+    var.tags,
+    {
+      Project = "barakat-2025-capstone"
+      Name    = "${var.developer_user_name}-access-key"
+    }
+  )
+}
+
+resource "aws_secretsmanager_secret_version" "bedrock_dev_view_access_key" {
+  count = var.create_developer_user ? 1 : 0
+
+  secret_id = aws_secretsmanager_secret.bedrock_dev_view_access_key[0].id
+  secret_string = jsonencode({
+    access_key_id     = aws_iam_access_key.bedrock_dev_view[0].id
+    secret_access_key = aws_iam_access_key.bedrock_dev_view[0].secret
+    user_arn          = aws_iam_user.bedrock_dev_view[0].arn
+  })
+}
+

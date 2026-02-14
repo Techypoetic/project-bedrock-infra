@@ -106,3 +106,12 @@ venv/
 # Grading output exception
 # grading.json MUST be committed at the end
 !grading.json
+
+# Helm secrets (do not commit)
+kubernetes/helm/retail-store-sample/values-secrets.yaml
+
+
+# Grading credentials
+GRADING_CREDENTIALS.txt
+docs/GRADING_CREDENTIALS.txt
+
